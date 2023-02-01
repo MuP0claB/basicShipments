@@ -10,9 +10,9 @@ public class Main {
         List<Shipment> shipmentsAll = new ArrayList<>();
         Scanner scanner = new Scanner(System.in);
         printMenu();
-        int number;
+        int number = scanner.nextInt();
 
-        while ((number = Integer.parseInt(scanner.nextLine())) != 0) {
+        while (number != 0) {
 
             printMenu();
             switch (number) {
@@ -37,6 +37,7 @@ public class Main {
                 default:
                     return;
             }
+            number = scanner.nextInt();
         }
 
         Shipment shipment = new Shipment();
@@ -99,25 +100,35 @@ public class Main {
     }
 
     public static void printCurrent(List<Shipment> shipmentsAll) {
+        System.out.println("За да прегледате съответната товарителница въведете името на получателя");
+        Scanner scanner = new Scanner(System.in);
+        String inputRecipient = scanner.nextLine();
 
         if (shipmentsAll.size() > 0) {
             for (int i = 0; i < shipmentsAll.size(); i++) {
-                System.out.println("Shipment with number " + (i + 1));
-                System.out.println(shipmentsAll.get(i).getNumber());
-                System.out.println(shipmentsAll.get(i).getRecipient());
-                System.out.println(shipmentsAll.get(i).getRecipientNumber());
-                System.out.println(shipmentsAll.get(i).getSenderName());
-                System.out.println(shipmentsAll.get(i).getWeight());
-                System.out.println(shipmentsAll.get(i).getLocation());
-                System.out.println(shipmentsAll.get(i).getDeliveryDate());
-                System.out.println(" ");
+                Shipment shipment = shipmentsAll.get(i);
+
+                 if (inputRecipient.equals(shipment.getRecipient())) {
+                     System.out.println("Shipment with number " + (i + 1));
+                     System.out.println(shipmentsAll.get(i).getNumber());
+                     System.out.println(shipmentsAll.get(i).getRecipient());
+                     System.out.println(shipmentsAll.get(i).getRecipientNumber());
+                     System.out.println(shipmentsAll.get(i).getSenderName());
+                     System.out.println(shipmentsAll.get(i).getWeight());
+                     System.out.println(shipmentsAll.get(i).getLocation());
+                     System.out.println(shipmentsAll.get(i).getDeliveryDate());
+                     System.out.println(" ");
+                 }
             }
         } else {
             System.out.println("Sorry, no shipments for printing.");
         }
+
+        printMenu();
     }
 
     public static void relocate(List<Shipment> shipmentsAll) {
+        System.out.println("За да промените посочения адрес за доставка, моля въведете името на получателя");
         Scanner scanner = new Scanner(System.in);
         String inputName = scanner.nextLine();
 
@@ -129,17 +140,27 @@ public class Main {
             }
         }
 
+        System.out.println("Моля въведете новият адрес за доставка");
+        String newAddress = scanner.nextLine();
         if (shipmentIndex != -1) {
             Shipment shipment = shipmentsAll.get(shipmentIndex);
-            shipment.setLocation("Dondukov blvd");
+            shipment.setLocation(newAddress);
+            System.out.println(shipment.getNumber());
+            System.out.println(shipment.getRecipient());
+            System.out.println(shipment.getRecipientNumber());
+            System.out.println(shipment.getSenderName());
+            System.out.println(shipment.getWeight());
             System.out.println(shipment.getLocation());
+            System.out.println(shipment.getDeliveryDate());
 
         } else {
             System.out.println("Sorry, no shipments for " + inputName);
         }
+        printMenu();
     }
 
     public static void trackingByNumber(List<Shipment> shipmentsAll) {
+        System.out.println("За да видите посочения адрес за доставка, моля въведете мобилен номер");
         Scanner scanner = new Scanner(System.in);
         String inputPhone = scanner.nextLine();
 
@@ -161,6 +182,7 @@ public class Main {
     }
 
     public static void delivery(List<Shipment> shipmentsAll) {
+        System.out.println("За да отложите датата на доставка, моля въведете първоначално въведената дата");
         Scanner scanner = new Scanner(System.in);
         String inputDate = scanner.nextLine();
 
@@ -172,17 +194,22 @@ public class Main {
             }
         }
 
+        System.out.println("Въведете новата дата за доставка");
+        String newDate = scanner.nextLine();
         if (shipmentIndex != -1) {
             Shipment shipment = shipmentsAll.get(shipmentIndex);
-            shipment.setDeliveryDate("22 Dec");
+            shipment.setDeliveryDate(newDate);
             System.out.println(shipment.getDeliveryDate());
 
         } else {
             System.out.println("Sorry, no shipments for " + inputDate);
         }
+
+        printMenu();
     }
 
     public static void cancelled(List<Shipment> shipmentsAll) {
+        System.out.println("За да откажете поръчан артикул, моля въведете името на доставчика");
         Scanner scanner = new Scanner(System.in);
         String input = scanner.nextLine();
 
@@ -201,5 +228,7 @@ public class Main {
         } else {
             System.out.println("Sorry, no shipments for " + input);
         }
+
+        printMenu();
     }
 }
